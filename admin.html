@@ -10,7 +10,7 @@
 <body>
 <header>
     <div class="header-content">
-        <img src="logo.png" alt="Bella Pizza Logo" class="logo">
+        <a href="index.html"><img src="logo.png" alt="Bella Pizza Logo" class="logo"></a>
     </div>
 </header>
 <main>
@@ -46,7 +46,7 @@
                 <input id="new-flavor" type="text" placeholder="Ex.: Calabresa 3">
                 <button id="add-flavor" class="btn-secondary" type="button">Adicionar sabor</button>
             </div>
-            <div id="pricing-table"></div>
+            <div class="table-wrap"><div id="pricing-table"></div></div>
             <div class="modal-actions">
                 <button id="save-pricing" class="btn-primary">Salvar preços</button>
                 <span id="pricing-feedback" style="margin-left:10px;color:#0f0;display:none;">Salvo</span>
@@ -68,7 +68,7 @@
                 <button id="export-csv" class="btn-secondary" type="button">Exportar CSV</button>
             </div>
             <div id="stats" class="order-summary"></div>
-            <div id="orders-table"></div>
+            <div class="table-wrap"><div id="orders-table"></div></div>
             <div id="order-details"></div>
         </section>
     </section>

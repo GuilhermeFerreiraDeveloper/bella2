@@ -915,3 +915,25 @@ footer {
         }
     }
 }
+/* Admin responsive helpers */
+.table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+.table-wrap table {
+    min-width: 560px;
+}
+@media (max-width: 768px) {
+    #pricing-section .modal-actions,
+    #orders-section .form-group {
+        display: block;
+    }
+    #pricing-section input[type="number"],
+    #pricing-section input[type="text"],
+    #orders-section select,
+    #orders-section input[type="month"] {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+}
