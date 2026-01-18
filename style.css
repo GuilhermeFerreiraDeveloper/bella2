@@ -937,3 +937,41 @@ footer {
         box-sizing: border-box;
     }
 }
+/* Admin status badges */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+    border-radius: 999px;
+    font-size: 0.9em;
+    font-weight: 700;
+}
+.status-pending { background-color: #444; color: #ffc107; border: 1px solid #666; }
+.status-completed { background-color: #1b5e20; color: #c8e6c9; border: 1px solid #2e7d32; }
+.status-canceled { background-color: #b71c1c; color: #ffcdd2; border: 1px solid #c62828; }
+.status-prepared { background-color: #0d47a1; color: #bbdefb; border: 1px solid #1565c0; }
+/* Sticky header for admin tables */
+.table-wrap thead th {
+    position: sticky;
+    top: 0;
+    background-color: rgba(0,0,0,0.85);
+    z-index: 2;
+}
+/* Larger touch targets on mobile */
+@media (max-width: 768px) {
+    #orders-section .btn-primary,
+    #orders-section .btn-secondary,
+    #orders-section .btn-danger {
+        min-height: 44px;
+        padding: 12px 16px;
+        font-size: 1em;
+    }
+}
+/* Accessibility focus */
+#orders-section .btn-primary:focus,
+#orders-section .btn-secondary:focus,
+#orders-section .btn-danger:focus {
+    outline: 2px solid #ffc107;
+    outline-offset: 2px;
+}
