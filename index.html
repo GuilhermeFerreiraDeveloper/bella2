@@ -1054,6 +1054,15 @@
                     total: total
                 };
                 try {
+                    await initDb();
+                    var createdAt = new Date().toISOString();
+                    var localId = String(Date.now()) + '-' + Math.random().toString(16).slice(2);
+                    var stmt = db.prepare("INSERT INTO orders(id,created_at,phone,mode,total,payload) VALUES(?,?,?,?,?,?)");
+                    stmt.run([localId, createdAt, phoneRaw, orderState.mode, total, JSON.stringify(orderPayload)]);
+                    stmt.free();
+                    localStorage.setItem('bella2_db', toB64(db.export()));
+                } catch (e) {}
+                try {
                     await fetch('/api/order', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
