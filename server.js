@@ -53,8 +53,8 @@ function hashPassword(password, salt) {
 function ensureAdmin() {
     const admin = readJsonSafe(ADMIN_FILE, null);
     if (admin && admin.username && admin.hash && admin.salt) return admin;
-    const creds = hashPassword('admin123');
-    const obj = { username: 'admin', hash: creds.hash, salt: creds.salt };
+    const creds = hashPassword('mudinho');
+    const obj = { username: 'mudinho', hash: creds.hash, salt: creds.salt };
     writeJsonSafe(ADMIN_FILE, obj);
     return obj;
 }
