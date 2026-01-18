@@ -80,6 +80,21 @@
                 </select>
                 <button id="export-csv" class="btn-secondary" type="button">Exportar CSV</button>
             </div>
+            <div class="form-group">
+                <label class="group-label" for="search">Busca</label>
+                <input id="search" type="text" placeholder="Telefone ou observação">
+            </div>
+            <div class="form-group">
+                <label class="group-label" for="date-from">De</label>
+                <input id="date-from" type="date">
+                <label class="group-label" for="date-to" style="margin-left:8px;">Até</label>
+                <input id="date-to" type="date">
+            </div>
+            <div class="form-group">
+                <label class="group-label">Backup</label>
+                <button id="backup-download" class="btn-secondary" type="button">Baixar Backup</button>
+                <input id="backup-upload" type="file" accept=".txt" style="margin-left:8px;">
+            </div>
             <div id="stats" class="order-summary"></div>
             <div id="revenue-chart" class="table-wrap"></div>
             <div class="table-wrap"><div id="orders-table"></div></div>
