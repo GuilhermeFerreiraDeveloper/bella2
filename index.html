@@ -251,9 +251,10 @@
         let SQLModule=null;let db=null;
         function toB64(u){let s='';for(let i=0;i<u.length;i++)s+=String.fromCharCode(u[i]);return btoa(s);}
         function fromB64(s){const b=atob(s);const u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u;}
-        async function initDb(){if(SQLModule&&db)return;SQLModule=await initSqlJs({locateFile:function(f){return 'https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/'+f;}});const saved=localStorage.getItem('bella2_db');db=saved?new SQLModule.Database(fromB64(saved)):new SQLModule.Database();db.exec("CREATE TABLE IF NOT EXISTS admin(username TEXT PRIMARY KEY,salt TEXT,hash TEXT)");db.exec("CREATE TABLE IF NOT EXISTS orders(id TEXT PRIMARY KEY,created_at TEXT,phone TEXT,mode TEXT,total REAL,payload TEXT)");db.exec("CREATE TABLE IF NOT EXISTS pricing(flavor TEXT PRIMARY KEY,price_p REAL,price_g REAL)");}
-        async function loadPricing(){await initDb();const stmt=db.prepare("SELECT flavor,price_p,price_g FROM pricing");const rows=[];while(stmt.step()){rows.push(stmt.getAsObject());}stmt.free();return rows;}
+        async function initDb(){if(SQLModule&&db)return;SQLModule=await initSqlJs({locateFile:function(f){return 'https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/'+f;}});const saved=localStorage.getItem('bella2_db');db=saved?new SQLModule.Database(fromB64(saved)):new SQLModule.Database();db.exec("CREATE TABLE IF NOT EXISTS admin(username TEXT PRIMARY KEY,salt TEXT,hash TEXT)");db.exec("CREATE TABLE IF NOT EXISTS orders(id TEXT PRIMARY KEY,created_at TEXT,phone TEXT,mode TEXT,total REAL,payload TEXT)");db.exec("CREATE TABLE IF NOT EXISTS pricing(flavor TEXT PRIMARY KEY,price_p REAL,price_g REAL)");db.exec("CREATE TABLE IF NOT EXISTS flavors(flavor TEXT PRIMARY KEY,category TEXT,description TEXT,active INTEGER)");}
+        async function loadPricing(){await initDb();const stmt=db.prepare("SELECT p.flavor, p.price_p, p.price_g, COALESCE(f.category,'salgada') AS category, COALESCE(f.description,'') AS description, COALESCE(f.active,1) AS active FROM pricing p LEFT JOIN flavors f ON f.flavor=p.flavor");const rows=[];while(stmt.step()){rows.push(stmt.getAsObject());}stmt.free();return rows;}
         async function seedPricingIfEmpty(map){await initDb();const rs=db.exec("SELECT COUNT(1) AS c FROM pricing");let c=0;if(rs.length&&rs[0].values&&rs[0].values[0]){c=Number(rs[0].values[0][0]||0);}if(c===0){const stmt=db.prepare("INSERT INTO pricing(flavor,price_p,price_g) VALUES(?,?,?)");var keys=Object.keys(map);for(var i=0;i<keys.length;i++){var k=keys[i];stmt.run([k, Number(map[k].P||0), Number(map[k].G||0)]);}stmt.free();localStorage.setItem('bella2_db', toB64(db.export()));}}
+        async function seedFlavorsIfEmpty(){await initDb();const rs=db.exec("SELECT COUNT(1) AS c FROM flavors");let c=0;if(rs.length&&rs[0].values&&rs[0].values[0]){c=Number(rs[0].values[0][0]||0);}if(c===0){var container=document.getElementById('menu');var nodes=container.querySelectorAll('.menu-category');var currentCat='salgada';for(var i=0;i<nodes.length;i++){var prev=nodes[i].previousElementSibling;while(prev&&!(prev.classList&&prev.classList.contains('menu-subtitle'))){prev=prev.previousElementSibling;}if(prev&&/Doces/i.test(prev.textContent||''))currentCat='doce';else currentCat='salgada';var items=nodes[i].querySelectorAll('ul li');for(var j=0;j<items.length;j++){var strong=items[j].querySelector('strong');if(!strong)continue;var name=strong.textContent.trim().replace(/:$/,'');var desc=items[j].textContent.replace(strong.textContent,'').trim().replace(/^[:\\-\\s]+/,'');var stmt=db.prepare("INSERT OR IGNORE INTO flavors(flavor,category,description,active) VALUES(?,?,?,?)");stmt.run([name,currentCat,desc,1]);stmt.free();}}localStorage.setItem('bella2_db', toB64(db.export()));}}
         document.addEventListener('DOMContentLoaded', async function () {
             await initDb();
             // Menu hambúrguer functionality
@@ -322,12 +323,7 @@
             }
             showSection('menu');
 
-            var flavorNodes = document.querySelectorAll('#menu .menu-category ul li strong');
-            var flavorNames = [];
-            for (var i = 0; i < flavorNodes.length; i++) {
-                var n = flavorNodes[i].textContent.trim().replace(/:$/, '');
-                if (flavorNames.indexOf(n) === -1) flavorNames.push(n);
-            }
+            renderDynamicFlavors(rows);
             function parsePrice(t) {
                 return parseFloat(String(t).replace(/\./g, '').replace(',', '.')) || 0;
             }
@@ -350,13 +346,19 @@
                     flavorPricing[name] = { P: pVal, G: gVal };
                 }
             }
+            await seedFlavorsIfEmpty();
             await seedPricingIfEmpty(flavorPricing);
             var rows = await loadPricing();
             flavorPricing = {};
+            var activeNames = [];
             for (var r = 0; r < rows.length; r++) {
                 var rr = rows[r];
-                flavorPricing[rr.flavor] = { P: Number(rr.price_p||0), G: Number(rr.price_g||0) };
+                if (Number(rr.active)) {
+                    flavorPricing[rr.flavor] = { P: Number(rr.price_p||0), G: Number(rr.price_g||0) };
+                    activeNames.push(rr.flavor);
+                }
             }
+            var flavorNames = activeNames.slice(0);
         function updateMenuPrices(){
             var priceBadges = document.querySelectorAll('#menu .menu-category ul li .flavor-price');
             for (var i = 0; i < priceBadges.length; i++) {
@@ -377,16 +379,48 @@
                 strong.appendChild(badge);
             }
         }
+        function renderDynamicFlavors(rows){
+            var known = {};
+            var existing = document.querySelectorAll('#menu .menu-category ul li strong');
+            for (var i = 0; i < existing.length; i++) {
+                known[existing[i].textContent.trim().replace(/:$/,'')] = true;
+            }
+            var container = document.getElementById('menu');
+            var dyn = document.getElementById('dynamic-flavors');
+            if (!dyn) {
+                dyn = document.createElement('div');
+                dyn.id = 'dynamic-flavors';
+                dyn.className = 'menu-category';
+                container.appendChild(dyn);
+            }
+            var html = '<h3 class="menu-subtitle">Novos Sabores</h3><ul>';
+            var hasAny = false;
+            for (var r = 0; r < rows.length; r++) {
+                var rr = rows[r];
+                if (!Number(rr.active)) continue;
+                if (!known[rr.flavor]) {
+                    hasAny = true;
+                    html += '<li><strong>'+rr.flavor+':</strong> '+(rr.description||'')+'</li>';
+                }
+            }
+            html += '</ul>';
+            dyn.innerHTML = hasAny ? html : '';
+        }
         updateMenuPrices();
         window.addEventListener('storage', async function(e){
             if (e.key === 'bella2_db') {
                 await initDb();
                 var rs = await loadPricing();
                 flavorPricing = {};
+                var activeNames = [];
                 for (var r2 = 0; r2 < rs.length; r2++) {
                     var rr2 = rs[r2];
-                    flavorPricing[rr2.flavor] = { P: Number(rr2.price_p||0), G: Number(rr2.price_g||0) };
+                    if (Number(rr2.active)) {
+                        flavorPricing[rr2.flavor] = { P: Number(rr2.price_p||0), G: Number(rr2.price_g||0) };
+                        activeNames.push(rr2.flavor);
+                    }
                 }
+                renderDynamicFlavors(rs);
                 updateMenuPrices();
                 var cards = document.querySelectorAll('.pizza-card');
                 for (var c = 0; c < cards.length; c++) {
