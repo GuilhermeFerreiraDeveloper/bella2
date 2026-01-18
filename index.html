@@ -6,6 +6,7 @@
     <title>Bella Pizza - Delivery</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Lobster&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
 </head>
 <body>
     <header>
@@ -247,7 +248,12 @@
         <p>&copy; 2026 Bella Pizza. Todos os direitos reservados.</p>
     </footer>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        let SQLModule=null;let db=null;
+        function toB64(u){let s='';for(let i=0;i<u.length;i++)s+=String.fromCharCode(u[i]);return btoa(s);}
+        function fromB64(s){const b=atob(s);const u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u;}
+        async function initDb(){if(SQLModule&&db)return;SQLModule=await initSqlJs({locateFile:function(f){return 'https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/'+f;}});const saved=localStorage.getItem('bella2_db');db=saved?new SQLModule.Database(fromB64(saved)):new SQLModule.Database();db.exec("CREATE TABLE IF NOT EXISTS admin(username TEXT PRIMARY KEY,salt TEXT,hash TEXT)");db.exec("CREATE TABLE IF NOT EXISTS orders(id TEXT PRIMARY KEY,created_at TEXT,phone TEXT,mode TEXT,total REAL,payload TEXT)");}
+        document.addEventListener('DOMContentLoaded', async function () {
+            await initDb();
             // Menu hambúrguer functionality
             var menuToggle = document.getElementById('menu-toggle');
             var navMenu = document.getElementById('tabs');
@@ -804,7 +810,7 @@
                 beverageModal.setAttribute('aria-hidden', 'true');
             });
             var btnSend = document.getElementById('send-order');
-            btnSend.addEventListener('click', function () {
+            btnSend.addEventListener('click', async function () {
                 var cards = pizzasList.querySelectorAll('.pizza-card');
                 if (!cards.length) {
                     alert('Adicione pelo menos uma pizza.');
@@ -951,13 +957,13 @@
                     deliveryFee: deliveryFee,
                     total: total
                 };
-                try {
-                    fetch('/api/order', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(orderPayload)
-                    }).catch(function(){});
-                } catch(e) {}
+                await initDb();
+                var createdAt = new Date().toISOString();
+                var id = (crypto && crypto.randomUUID) ? crypto.randomUUID() : Math.random().toString(36).slice(2);
+                var stmtIns = db.prepare("INSERT INTO orders(id,created_at,phone,mode,total,payload) VALUES(?,?,?,?,?,?)");
+                stmtIns.run([id, createdAt, phoneRaw, orderState.mode, total, JSON.stringify(orderPayload)]);
+                stmtIns.free();
+                localStorage.setItem('bella2_db', toB64(db.export()));
                 var message = messageLines.map(function (line) { return encodeURIComponent(line); }).join('%0A');
                 var url = 'https://wa.me/5512996829155?text=' + message;
                 window.open(url, '_blank');
