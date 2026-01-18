@@ -249,6 +249,7 @@
     </footer>
     <script>
         let SQLModule=null;let db=null;
+        const API_BASE='';
         function toB64(u){let s='';for(let i=0;i<u.length;i++)s+=String.fromCharCode(u[i]);return btoa(s);}
         function fromB64(s){const b=atob(s);const u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u;}
         async function initDb(){if(SQLModule&&db)return;SQLModule=await initSqlJs({locateFile:function(f){return 'https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/'+f;}});const saved=localStorage.getItem('bella2_db');db=saved?new SQLModule.Database(fromB64(saved)):new SQLModule.Database();db.exec("CREATE TABLE IF NOT EXISTS admin(username TEXT PRIMARY KEY,salt TEXT,hash TEXT)");db.exec("CREATE TABLE IF NOT EXISTS orders(id TEXT PRIMARY KEY,created_at TEXT,phone TEXT,mode TEXT,total REAL,payload TEXT,status TEXT DEFAULT 'pending',settled_at TEXT,prepared_at TEXT)");db.exec("CREATE TABLE IF NOT EXISTS pricing(flavor TEXT PRIMARY KEY,price_p REAL,price_g REAL)");db.exec("CREATE TABLE IF NOT EXISTS flavors(flavor TEXT PRIMARY KEY,category TEXT,description TEXT,active INTEGER)");}
@@ -1063,7 +1064,7 @@
                     localStorage.setItem('bella2_db', toB64(db.export()));
                 } catch (e) {}
                 try {
-                    await fetch('/api/order', {
+                    await fetch(API_BASE + '/api/order', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
