@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bella Pizza - Delivery</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Lobster&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <img src="logo.png" alt="Bella Pizza Logo" class="logo">
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <nav id="tabs" class="nav-menu">
+        <button class="tab-btn active" data-target="menu">Cardápio</button>
+        <button class="tab-btn" data-target="order">Faça seu Pedido</button>
+        <button class="tab-btn" data-target="contact">Contato</button>
+        <button class="tab-btn" data-target="location">Onde estamos</button>
+        <button class="tab-btn" data-href="admin.html">Admin</button>
+    </nav>
+
+    <main>
+        <section id="menu">
+            <h2>Nosso Cardápio</h2>
+            <h3 class="menu-subtitle">Pizzas Salgadas</h3>
+
+            <div class="menu-category">
+                <h3>Pizzas - P: R$ 30,90 | G: R$ 38,90</h3>
+                <ul>
+                    <li>
+                        <strong>Calabresa 1:</strong> molho de tomate, mussarela, cebola, azeitona e orégano.
+                    </li>
+                    <li>
+                        <strong>Mista:</strong> molho de tomate, apresuntado, mussarela, tomate, azeitona e orégano.
+                    </li>
+                    <li>
+                        <strong>Mussarela:</strong> molho de tomate, mussarela, tomate, azeitona e orégano.
+                    </li>
+                    <li>
+                        <strong>Napolitana:</strong> molho de tomate, mussarela, palmito, cebola, azeitona e orégano.
+                    </li>
+                </ul>
+            </div>
+
+            <div class="menu-category">
+                <h3>Pizzas - P: R$ 32,90 | G: R$ 44,90</h3>
+                <ul>
+                    <li>
+                        <strong>4 Queijos:</strong> molho de tomate, requeijão, mussarela, provolone, gorgonzola, azeitona e orégano.
+                    </li>
+                    <li>
+                        <strong>Atum:</strong> molho de tomate, mussarela, atum, cebola, azeitona e orégano.
+                    </li>
+                    <li>
+                        <strong>Bacon:</strong> molho de tomate, mussarela, requeijão, azeitona e orégano.
+                    </li>
+                    <li>
+                        <strong>Baiana:</strong> (Ingredientes não especificados).
+                    </li>
+                    <li>
+                        <strong>Calabresa 2:</strong> molho de tomate, calabresa, palmito, mussarela, azeitona e orégano.
+                    </li>
+                    <li>
+                        <strong>Marguerita:</strong> molho de tomate, mussarela, tomate, parmesão, manjericão fresco, cebola, azeitona e orégano.
+                    </li>
+                    <li>
+                        <strong>Palmito:</strong> molho de tomate, mussarela, palmito, cebola, azeitona e orégano.
+                    </li>
+                </ul>
+            </div>
+
+            <div class="menu-category">
+                <h3>Pizzas - P: R$ 35,90 | G: R$ 48,90</h3>
+                <ul>
+                    <li>
+                        <strong>Brócolis:</strong> molho de tomate, mussarela, brócolis, requeijão, bacon, azeitona e orégano.
+                    </li>
+                    <li>
+                        <strong>Caipira:</strong> molho de tomate, requeijão, frango, milho, bacon, azeitona e orégano.
+                    </li>
+                    <li>
+                        <strong>Frango / Catupiry:</strong> molho de tomate, mussarela, frango, requeijão, azeitona e orégano.
+                    </li>
+                    <li>
+                        <strong>Mineirinha:</strong> molho de tomate, mussarela, frango, milho, ovos cozidos, bacon e azeitona.
+                    </li>
+                     <li>
+                        <strong>Portuguesa:</strong> molho de tomate, apresuntado, ervilha, ovo cozido, palmito, mussarela, cebola, azeitona e orégano.
+                    </li>
+                    <li>
+                        <strong>Toscana:</strong> mussarela, calabresa moída, requeijão, ovo e bacon.
+                    </li>
+                </ul>
+            </div>
+
+            <h3 class="menu-subtitle">Pizzas Doces</h3>
+            <div class="menu-category">
+                <h3>Pizzas Doces - P: R$ 33,90 | G: R$ 46,90</h3>
+                <ul>
+                    <li>
+                        <strong>Banana Nevada:</strong> mussarela, banana, chocolate branco e canela.
+                    </li>
+                    <li>
+                        <strong>Kit Kat:</strong> chocolate e Kit Kat.
+                    </li>
+                    <li>
+                        <strong>Morango:</strong> chocolate e morango.
+                    </li>
+                    <li>
+                        <strong>Uva:</strong> chocolate e uva.
+                    </li>
+                    <li>
+                        <strong>Sonho de Valsa:</strong> chocolate e Sonho de Valsa.
+                    </li>
+                </ul>
+            </div>
+
+            <div class="menu-category">
+                <h3>Pizzas Doces - P: R$ 32,90 | G: R$ 43,90</h3>
+                <ul>
+                    <li>
+                        <strong>Brigadeiro:</strong> chocolate e granulado.
+                    </li>
+                    <li>
+                        <strong>Choconana:</strong> chocolate e banana.
+                    </li>
+                    <li>
+                        <strong>Confete:</strong> chocolate e confete.
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="order">
+            <h2>Monte seu Pedido</h2>
+            <form id="order-form">
+                <div id="pizzas-list"></div>
+                <div id="beverages-list"></div>
+                <div id="order-summary" class="order-summary"></div>
+                <div class="order-actions">
+                    <button type="button" id="add-pizza" class="btn-secondary">Adicionar pizza</button>
+                    <button type="button" id="add-beverage" class="btn-secondary">Adicionar refrigerante</button>
+                </div>
+                <div class="form-group">
+                    <label for="phone" class="group-label">Telefone de contato</label>
+                    <input id="phone" type="tel" placeholder="(DDD) 9XXXX-XXXX" required>
+                </div>
+                <div class="form-group">
+                    <label class="group-label">Total do Pedido</label>
+                    <div id="inline-total" class="order-total">Total: R$ 0,00</div>
+                </div>
+                <div class="form-group">
+                    <label class="group-label">Retirada ou Entrega</label>
+                    <div class="size-options">
+                        <label class="radio">
+                            <input type="radio" name="order-mode" id="mode-pickup" value="pickup">
+                            <span>Retirada</span>
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="order-mode" id="mode-delivery" value="delivery" checked>
+                            <span>Entrega</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group" id="address-group">
+                    <label for="address" class="group-label">Endereço de Entrega</label>
+                    <input id="address" type="text" placeholder="Rua, número, bairro">
+                </div>
+                <div class="form-group" id="payment-group">
+                    <label class="group-label">Forma de pagamento</label>
+                    <div class="size-options">
+                        <label class="radio">
+                            <input type="radio" name="payment-method" value="card">
+                            <span>Cartão crédito/débito</span>
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="payment-method" value="pix">
+                            <span>Pix</span>
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="payment-method" value="cash">
+                            <span>Dinheiro</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group" id="change-group" style="display:none;">
+                    <label class="group-label">Precisa de troco?</label>
+                    <div class="size-options">
+                        <label class="radio">
+                            <input type="radio" name="need-change" value="no" checked>
+                            <span>Não</span>
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="need-change" value="yes">
+                            <span>Sim</span>
+                        </label>
+                    </div>
+                    <input id="change-amount" type="text" placeholder="Troco para R$" style="display:none;">
+                </div>
+                <button type="button" id="send-order" class="btn-primary">Enviar Pedido</button>
+            </form>
+        </section>
+
+        <div id="flavor-modal" class="modal hidden" aria-hidden="true">
+            <div class="modal-content">
+                <h3>Escolha até 2 sabores</h3>
+                <div id="modal-flavors" class="flavors-grid"></div>
+                <div class="modal-actions">
+                    <button type="button" id="modal-save" class="btn-primary">Salvar</button>
+                    <button type="button" id="modal-cancel" class="btn-secondary">Cancelar</button>
+                </div>
+            </div>
+        </div>
+        <div id="beverage-modal" class="modal hidden" aria-hidden="true">
+            <div class="modal-content">
+                <h3>Escolha o refrigerante</h3>
+                <div id="modal-beverages" class="flavors-grid"></div>
+                <div class="modal-actions">
+                    <button type="button" id="bev-modal-save" class="btn-primary">Salvar</button>
+                    <button type="button" id="bev-modal-cancel" class="btn-secondary">Cancelar</button>
+                </div>
+            </div>
+        </div>
+
+        <section id="contact">
+            <h2>Peça já a sua!</h2>
+            <p>Massa fresquinha e ingredientes selecionados.</p>
+            <p>Telefone: <a href="tel:+5512996829155">(12) 99682-9155</a></p>
+            <p>WhatsApp: <a href="https://wa.me/5512996829155?text=Olá!%20Gostaria%20de%20fazer%20um%20pedido." target="_blank">(12) 99682-9155</a></p>
+        </section>
+
+        <section id="location">
+            <h2>Onde estamos</h2>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d919.3665219101559!2d-45.180758730531004!3d-22.82223939870715!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ccc51b1ed727b1%3A0x4722f045e67137f0!2sR.%20Dona%20Helena%20Galv%C3%A3o%20C%C3%A9sar%2C%20283%20-%20Jardim%20Modelo%2C%20Guaratinguet%C3%A1%20-%20SP%2C%2012524-840!5e0!3m2!1spt-BR!2sbr!4v1767764926016!5m2!1spt-BR!2sbr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Bella Pizza. Todos os direitos reservados.</p>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Menu hambúrguer functionality
+            var menuToggle = document.getElementById('menu-toggle');
+            var navMenu = document.getElementById('tabs');
+            
+            function toggleMenu() {
+                navMenu.classList.toggle('active');
+                menuToggle.classList.toggle('active');
+            }
+            
+            function closeMenu() {
+                navMenu.classList.remove('active');
+                menuToggle.classList.remove('active');
+            }
+            
+            if (menuToggle) {
+                menuToggle.addEventListener('click', toggleMenu);
+            }
+            
+            // Close menu when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!navMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+                    closeMenu();
+                }
+            });
+            
+            // Close menu when window is resized to desktop
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768) {
+                    closeMenu();
+                }
+            });
+            
+            var tabButtons = document.querySelectorAll('#tabs .tab-btn');
+            var sectionIds = ['menu', 'order', 'contact', 'location'];
+            function showSection(id) {
+                for (var s = 0; s < sectionIds.length; s++) {
+                    var el = document.getElementById(sectionIds[s]);
+                    if (el) el.style.display = sectionIds[s] === id ? '' : 'none';
+                }
+                // Close mobile menu after selection
+                if (window.innerWidth <= 768) {
+                    closeMenu();
+                }
+            }
+            function setActive(btn) {
+                for (var b = 0; b < tabButtons.length; b++) {
+                    tabButtons[b].classList.remove('active');
+                }
+                btn.classList.add('active');
+            }
+            for (var tb = 0; tb < tabButtons.length; tb++) {
+                tabButtons[tb].addEventListener('click', function (e) {
+                    var href = e.currentTarget.getAttribute('data-href');
+                    if (href) {
+                        window.location.href = href;
+                        return;
+                    }
+                    var target = e.currentTarget.getAttribute('data-target');
+                    if (target) {
+                        setActive(e.currentTarget);
+                        showSection(target);
+                    }
+                });
+            }
+            showSection('menu');
+
+            var flavorNodes = document.querySelectorAll('#menu .menu-category ul li strong');
+            var flavorNames = [];
+            for (var i = 0; i < flavorNodes.length; i++) {
+                var n = flavorNodes[i].textContent.trim().replace(/:$/, '');
+                if (flavorNames.indexOf(n) === -1) flavorNames.push(n);
+            }
+            function parsePrice(t) {
+                return parseFloat(String(t).replace(/\./g, '').replace(',', '.')) || 0;
+            }
+            function formatBRL(n) {
+                return 'R$ ' + (Number(n || 0).toFixed(2)).replace('.', ',');
+            }
+            var flavorPricing = {};
+            var categories = document.querySelectorAll('#menu .menu-category');
+            for (var k = 0; k < categories.length; k++) {
+                var h = categories[k].querySelector('h3');
+                if (!h) continue;
+                var txt = h.textContent;
+                var mP = txt.match(/P:\s*R\$\s*([\d.,]+)/);
+                var mG = txt.match(/G:\s*R\$\s*([\d.,]+)/);
+                var pVal = mP ? parsePrice(mP[1]) : 0;
+                var gVal = mG ? parsePrice(mG[1]) : 0;
+                var fs = categories[k].querySelectorAll('ul li strong');
+                for (var f = 0; f < fs.length; f++) {
+                    var name = fs[f].textContent.trim().replace(/:$/, '');
+                    flavorPricing[name] = { P: pVal, G: gVal };
+                }
+            }
+            var pizzasState = {};
+            var pizzaCounter = 0;
+            var beveragesList = document.getElementById('beverages-list');
+            var beveragesState = {};
+            var beverageCounter = 0;
+            var beverageUnitPrice = 15;
+            var orderState = { mode: 'delivery', payment: '', changeNeeded: 'no', changeAmount: '' };
+            function createPizzaCard(id) {
+                var card = document.createElement('div');
+                card.className = 'pizza-card';
+                card.setAttribute('data-pizza-id', id);
+                var title = document.createElement('div');
+                title.className = 'pizza-title';
+                title.textContent = 'Pizza';
+                card.appendChild(title);
+                var sizeGroup = document.createElement('div');
+                sizeGroup.className = 'form-group';
+                var lblSize = document.createElement('label');
+                lblSize.className = 'group-label';
+                lblSize.textContent = 'Tamanho';
+                var sizeOpts = document.createElement('div');
+                sizeOpts.className = 'size-options';
+                var l1 = document.createElement('label');
+                l1.className = 'radio';
+                var r1 = document.createElement('input');
+                r1.type = 'radio';
+                r1.name = 'size-' + id;
+                r1.value = 'P';
+                r1.checked = true;
+                var s1 = document.createElement('span');
+                s1.textContent = 'P';
+                l1.appendChild(r1); l1.appendChild(s1);
+                var l2 = document.createElement('label');
+                l2.className = 'radio';
+                var r2 = document.createElement('input');
+                r2.type = 'radio';
+                r2.name = 'size-' + id;
+                r2.value = 'G';
+                var s2 = document.createElement('span');
+                s2.textContent = 'G';
+                l2.appendChild(r2); l2.appendChild(s2);
+                sizeOpts.appendChild(l1); sizeOpts.appendChild(l2);
+                sizeGroup.appendChild(lblSize); sizeGroup.appendChild(sizeOpts);
+                var flavorsGroup = document.createElement('div');
+                flavorsGroup.className = 'form-group';
+                var lblFlavors = document.createElement('label');
+                lblFlavors.className = 'group-label';
+                lblFlavors.textContent = 'Sabores (máximo 2)';
+                var chips = document.createElement('div');
+                chips.className = 'chips';
+                chips.textContent = 'Nenhum sabor selecionado';
+                var btnPick = document.createElement('button');
+                btnPick.type = 'button';
+                btnPick.className = 'btn-secondary';
+                btnPick.textContent = 'Escolher sabores';
+                btnPick.addEventListener('click', function () {
+                    openFlavorModal(id);
+                });
+                var btnRemove = document.createElement('button');
+                btnRemove.type = 'button';
+                btnRemove.className = 'btn-danger';
+                btnRemove.textContent = 'Remover pizza';
+                btnRemove.addEventListener('click', function () {
+                    var list = document.getElementById('pizzas-list');
+                    if (list.children.length > 1) {
+                        delete pizzasState[id];
+                        list.removeChild(card);
+                        relabelCards();
+                        updateSummary();
+                    } else {
+                        alert('Mantenha pelo menos uma pizza.');
+                    }
+                });
+                flavorsGroup.appendChild(lblFlavors);
+                flavorsGroup.appendChild(chips);
+                flavorsGroup.appendChild(btnPick);
+                flavorsGroup.appendChild(btnRemove);
+                card.appendChild(sizeGroup);
+                card.appendChild(flavorsGroup);
+                var noteGroup = document.createElement('div');
+                noteGroup.className = 'form-group';
+                var lblNote = document.createElement('label');
+                lblNote.className = 'group-label';
+                lblNote.textContent = 'Observação (opcional)';
+                var noteInput = document.createElement('input');
+                noteInput.type = 'text';
+                noteInput.placeholder = 'Ex.: sem milho';
+                noteInput.className = 'note-input';
+                noteInput.value = pizzasState[id] && pizzasState[id].note ? pizzasState[id].note : '';
+                noteInput.addEventListener('input', function (e) {
+                    pizzasState[id] = pizzasState[id] || {};
+                    pizzasState[id].note = e.target.value;
+                    updateSummary();
+                });
+                noteGroup.appendChild(lblNote);
+                noteGroup.appendChild(noteInput);
+                card.appendChild(noteGroup);
+                var priceRow = document.createElement('div');
+                priceRow.className = 'price-row';
+                priceRow.textContent = 'Preço: —';
+                card.appendChild(priceRow);
+                r1.addEventListener('change', function () {
+                    pizzasState[id] = pizzasState[id] || {};
+                    pizzasState[id].size = 'P';
+                    updatePrice(id);
+                    updateSummary();
+                });
+                r2.addEventListener('change', function () {
+                    pizzasState[id] = pizzasState[id] || {};
+                    pizzasState[id].size = 'G';
+                    updatePrice(id);
+                    updateSummary();
+                });
+                return card;
+            }
+            function updateChips(id) {
+                var card = document.querySelector('.pizza-card[data-pizza-id="' + id + '"]');
+                var chips = card.querySelector('.chips');
+                var selected = pizzasState[id] && pizzasState[id].flavors ? pizzasState[id].flavors : [];
+                chips.innerHTML = '';
+                if (!selected.length) {
+                    chips.textContent = 'Nenhum sabor selecionado';
+                    updatePrice(id);
+                    updateSummary();
+                    return;
+                }
+                for (var c = 0; c < selected.length; c++) {
+                    var chip = document.createElement('span');
+                    chip.className = 'chip';
+                    chip.textContent = selected[c];
+                    chips.appendChild(chip);
+                }
+                updatePrice(id);
+                updateSummary();
+            }
+            var pizzasList = document.getElementById('pizzas-list');
+            function relabelCards() {
+                var cards = pizzasList.querySelectorAll('.pizza-card');
+                for (var idx = 0; idx < cards.length; idx++) {
+                    var t = cards[idx].querySelector('.pizza-title');
+                    if (t) t.textContent = 'Pizza ' + (idx + 1);
+                }
+            }
+            function createBeverageCard(id) {
+                var card = document.createElement('div');
+                card.className = 'beverage-card pizza-card';
+                card.setAttribute('data-beverage-id', id);
+                var title = document.createElement('div');
+                title.className = 'pizza-title';
+                title.textContent = 'Refrigerante';
+                card.appendChild(title);
+                var typeGroup = document.createElement('div');
+                typeGroup.className = 'form-group';
+                var lblType = document.createElement('label');
+                lblType.className = 'group-label';
+                lblType.textContent = 'Tipo';
+                var chips = document.createElement('div');
+                chips.className = 'chips';
+                chips.textContent = 'Nenhum refrigerante selecionado';
+                var btnPick = document.createElement('button');
+                btnPick.type = 'button';
+                btnPick.className = 'btn-secondary';
+                btnPick.textContent = 'Escolher refrigerante';
+                btnPick.addEventListener('click', function () {
+                    openBeverageModal(id);
+                });
+                var btnRemove = document.createElement('button');
+                btnRemove.type = 'button';
+                btnRemove.className = 'btn-danger';
+                btnRemove.textContent = 'Remover refrigerante';
+                btnRemove.addEventListener('click', function () {
+                    if (beveragesList.children.length > 0) {
+                        delete beveragesState[id];
+                        beveragesList.removeChild(card);
+                        relabelBeverages();
+                        updateSummary();
+                    }
+                });
+                typeGroup.appendChild(lblType);
+                typeGroup.appendChild(chips);
+                typeGroup.appendChild(btnPick);
+                typeGroup.appendChild(btnRemove);
+                card.appendChild(typeGroup);
+                var priceRow = document.createElement('div');
+                priceRow.className = 'price-row';
+                priceRow.textContent = 'Preço: —';
+                card.appendChild(priceRow);
+                return card;
+            }
+            function relabelBeverages() {
+                var cards = beveragesList.querySelectorAll('.beverage-card');
+                for (var idx = 0; idx < cards.length; idx++) {
+                    var t = cards[idx].querySelector('.pizza-title');
+                    if (t) t.textContent = 'Refrigerante ' + (idx + 1);
+                }
+            }
+            function updateBeverageChips(id) {
+                var card = document.querySelector('.beverage-card[data-beverage-id="' + id + '"]');
+                if (!card) return;
+                var chips = card.querySelector('.chips');
+                var selected = beveragesState[id] && beveragesState[id].type ? beveragesState[id].type : '';
+                chips.innerHTML = '';
+                if (!selected) {
+                    chips.textContent = 'Nenhum refrigerante selecionado';
+                } else {
+                    var chip = document.createElement('span');
+                    chip.className = 'chip';
+                    chip.textContent = selected;
+                    chips.appendChild(chip);
+                }
+                updateBeveragePrice(id);
+                updateSummary();
+            }
+            function updateBeveragePrice(id) {
+                var card = document.querySelector('.beverage-card[data-beverage-id="' + id + '"]');
+                if (!card) return;
+                var priceRow = card.querySelector('.price-row');
+                var hasType = beveragesState[id] && beveragesState[id].type;
+                var price = hasType ? beverageUnitPrice : 0;
+                beveragesState[id] = beveragesState[id] || {};
+                beveragesState[id].price = price;
+                priceRow.textContent = price > 0 ? ('Preço: ' + formatBRL(price)) : 'Preço: —';
+            }
+            function addBeverage() {
+                beverageCounter += 1;
+                var id = 'beverage-' + beverageCounter;
+                beveragesState[id] = { type: '', price: 0 };
+                var card = createBeverageCard(id);
+                beveragesList.appendChild(card);
+                updateBeverageChips(id);
+                relabelBeverages();
+                updateSummary();
+            }
+            function updatePrice(id) {
+                var card = document.querySelector('.pizza-card[data-pizza-id="' + id + '"]');
+                if (!card) return;
+                var sizeEl = card.querySelector('input[name="size-' + id + '"]:checked');
+                var size = sizeEl ? sizeEl.value : (pizzasState[id] && pizzasState[id].size ? pizzasState[id].size : 'P');
+                var flavors = pizzasState[id] && pizzasState[id].flavors ? pizzasState[id].flavors.slice(0) : [];
+                var priceRow = card.querySelector('.price-row');
+                var price = 0;
+                if (flavors.length) {
+                    var vals = [];
+                    for (var q = 0; q < flavors.length; q++) {
+                        var fp = flavorPricing[flavors[q]];
+                        vals.push(fp && fp[size] ? fp[size] : 0);
+                    }
+                    price = vals.length ? Math.max.apply(null, vals) : 0;
+                }
+                pizzasState[id] = pizzasState[id] || {};
+                pizzasState[id].size = size;
+                pizzasState[id].price = price;
+                priceRow.textContent = price > 0 ? ('Preço: ' + formatBRL(price)) : 'Preço: —';
+            }
+            function updateSummary() {
+                var container = document.getElementById('order-summary');
+                var cards = pizzasList.querySelectorAll('.pizza-card');
+                var html = '';
+                var total = 0;
+                for (var p = 0; p < cards.length; p++) {
+                    var id = cards[p].getAttribute('data-pizza-id');
+                    var sizeEl = cards[p].querySelector('input[name="size-' + id + '"]:checked');
+                    var size = sizeEl ? sizeEl.value : (pizzasState[id] && pizzasState[id].size ? pizzasState[id].size : 'P');
+                    var flavors = pizzasState[id] && pizzasState[id].flavors ? pizzasState[id].flavors : [];
+                    var note = pizzasState[id] && pizzasState[id].note ? pizzasState[id].note.trim() : '';
+                    var price = pizzasState[id] && pizzasState[id].price ? pizzasState[id].price : 0;
+                    total += price || 0;
+                    var line = 'Pizza ' + (p + 1) + ' — Tamanho: ' + size + ' — Sabores: ' + (flavors.length ? flavors.join(' + ') : '—') + ' — Preço: ' + (price > 0 ? formatBRL(price) : '—');
+                    if (note) line += ' — Obs: ' + note;
+                    html += '<div class="order-line">' + line + '</div>';
+                }
+                var bevCards = beveragesList.querySelectorAll('.beverage-card');
+                for (var b = 0; b < bevCards.length; b++) {
+                    var bid = bevCards[b].getAttribute('data-beverage-id');
+                    var btype = beveragesState[bid] && beveragesState[bid].type ? beveragesState[bid].type : '';
+                    var bprice = beveragesState[bid] && beveragesState[bid].price ? beveragesState[bid].price : 0;
+                    total += bprice || 0;
+                    var bline = 'Refrigerante ' + (b + 1) + ' — Tipo: ' + (btype || '—') + ' — Preço: ' + (bprice > 0 ? formatBRL(bprice) : '—');
+                    html += '<div class="order-line">' + bline + '</div>';
+                }
+                html += '<div class="order-total">Total: ' + formatBRL(total) + '</div>';
+                container.innerHTML = html;
+                var inlineTotal = document.getElementById('inline-total');
+                if (inlineTotal) inlineTotal.textContent = 'Total: ' + formatBRL(total);
+            }
+            function addPizza() {
+                pizzaCounter += 1;
+                var id = 'pizza-' + pizzaCounter;
+                pizzasState[id] = { flavors: [], note: '', size: 'P', price: 0 };
+                var card = createPizzaCard(id);
+                pizzasList.appendChild(card);
+                updateChips(id);
+                relabelCards();
+                updateSummary();
+            }
+            document.getElementById('add-pizza').addEventListener('click', addPizza);
+            addPizza();
+            var btnAddBeverage = document.getElementById('add-beverage');
+            if (btnAddBeverage) {
+                btnAddBeverage.addEventListener('click', addBeverage);
+            }
+            var modeInputs = document.querySelectorAll('input[name="order-mode"]');
+            for (var mm = 0; mm < modeInputs.length; mm++) {
+                modeInputs[mm].addEventListener('change', function (e) {
+                    orderState.mode = e.target.value;
+                    var paymentGroup = document.getElementById('payment-group');
+                    var changeGroup = document.getElementById('change-group');
+                    var addressGroup = document.getElementById('address-group');
+                    var addressEl = document.getElementById('address');
+                    if (orderState.mode === 'delivery') {
+                        if (paymentGroup) paymentGroup.style.display = '';
+                        if (changeGroup) changeGroup.style.display = orderState.payment === 'cash' ? '' : 'none';
+                        if (addressGroup) addressGroup.style.display = '';
+                        if (addressEl) addressEl.required = true;
+                    } else {
+                        if (paymentGroup) paymentGroup.style.display = 'none';
+                        if (changeGroup) changeGroup.style.display = 'none';
+                        if (addressGroup) addressGroup.style.display = 'none';
+                        if (addressEl) addressEl.required = false;
+                    }
+                });
+            }
+            var payInputs = document.querySelectorAll('input[name="payment-method"]');
+            for (var pm = 0; pm < payInputs.length; pm++) {
+                payInputs[pm].addEventListener('change', function (e) {
+                    orderState.payment = e.target.value;
+                    var changeGroup = document.getElementById('change-group');
+                    if (orderState.payment === 'cash' && orderState.mode === 'delivery') {
+                        changeGroup.style.display = '';
+                    } else {
+                        changeGroup.style.display = 'none';
+                    }
+                });
+            }
+            var changeInputs = document.querySelectorAll('input[name="need-change"]');
+            for (var nc = 0; nc < changeInputs.length; nc++) {
+                changeInputs[nc].addEventListener('change', function (e) {
+                    orderState.changeNeeded = e.target.value;
+                    var amt = document.getElementById('change-amount');
+                    if (orderState.changeNeeded === 'yes') {
+                        amt.style.display = '';
+                        amt.required = true;
+                    } else {
+                        amt.style.display = 'none';
+                        amt.required = false;
+                        amt.value = '';
+                        orderState.changeAmount = '';
+                    }
+                });
+            }
+            var changeAmtEl = document.getElementById('change-amount');
+            if (changeAmtEl) {
+                changeAmtEl.addEventListener('input', function (e) {
+                    orderState.changeAmount = e.target.value;
+                });
+            }
+            var modal = document.getElementById('flavor-modal');
+            var modalFlavors = document.getElementById('modal-flavors');
+            var currentPizzaId = null;
+            function renderModal(selected) {
+                modalFlavors.innerHTML = '';
+                for (var j = 0; j < flavorNames.length; j++) {
+                    var label = document.createElement('label');
+                    label.className = 'checkbox';
+                    var input = document.createElement('input');
+                    input.type = 'checkbox';
+                    input.value = flavorNames[j];
+                    if (selected.indexOf(flavorNames[j]) !== -1) input.checked = true;
+                    var span = document.createElement('span');
+                    span.textContent = flavorNames[j];
+                    label.appendChild(input);
+                    label.appendChild(span);
+                    modalFlavors.appendChild(label);
+                }
+                var inputs = modalFlavors.querySelectorAll('input[type="checkbox"]');
+                function enforceLimit(e) {
+                    var checked = modalFlavors.querySelectorAll('input[type="checkbox"]:checked');
+                    if (checked.length > 2) {
+                        e.target.checked = false;
+                        alert('Selecione no máximo 2 sabores.');
+                    }
+                }
+                for (var m = 0; m < inputs.length; m++) {
+                    inputs[m].addEventListener('change', enforceLimit);
+                }
+            }
+            function openFlavorModal(id) {
+                currentPizzaId = id;
+                var selected = pizzasState[id] && pizzasState[id].flavors ? pizzasState[id].flavors : [];
+                renderModal(selected);
+                modal.classList.remove('hidden');
+                modal.setAttribute('aria-hidden', 'false');
+            }
+            document.getElementById('modal-cancel').addEventListener('click', function () {
+                modal.classList.add('hidden');
+                modal.setAttribute('aria-hidden', 'true');
+            });
+            document.getElementById('modal-save').addEventListener('click', function () {
+                var chosen = [];
+                var checked = modalFlavors.querySelectorAll('input[type="checkbox"]:checked');
+                for (var x = 0; x < checked.length; x++) {
+                    chosen.push(checked[x].value);
+                }
+                if (chosen.length === 0) {
+                    alert('Selecione pelo menos 1 sabor.');
+                    return;
+                }
+                if (chosen.length > 2) {
+                    alert('Selecione no máximo 2 sabores.');
+                    return;
+                }
+                pizzasState[currentPizzaId] = pizzasState[currentPizzaId] || {};
+                pizzasState[currentPizzaId].flavors = chosen;
+                updateChips(currentPizzaId);
+                modal.classList.add('hidden');
+                modal.setAttribute('aria-hidden', 'true');
+            });
+            var beverageModal = document.getElementById('beverage-modal');
+            var modalBeverages = document.getElementById('modal-beverages');
+            var currentBeverageId = null;
+            function renderBeverageModal(selected) {
+                modalBeverages.innerHTML = '';
+                var names = ['Guaraná', 'Coca-Cola'];
+                for (var j = 0; j < names.length; j++) {
+                    var label = document.createElement('label');
+                    label.className = 'checkbox';
+                    var input = document.createElement('input');
+                    input.type = 'radio';
+                    input.name = 'bev-choice';
+                    input.value = names[j];
+                    if (selected === names[j]) input.checked = true;
+                    var span = document.createElement('span');
+                    span.textContent = names[j];
+                    label.appendChild(input);
+                    label.appendChild(span);
+                    modalBeverages.appendChild(label);
+                }
+            }
+            function openBeverageModal(id) {
+                currentBeverageId = id;
+                var selected = beveragesState[id] && beveragesState[id].type ? beveragesState[id].type : '';
+                renderBeverageModal(selected);
+                beverageModal.classList.remove('hidden');
+                beverageModal.setAttribute('aria-hidden', 'false');
+            }
+            document.getElementById('bev-modal-cancel').addEventListener('click', function () {
+                beverageModal.classList.add('hidden');
+                beverageModal.setAttribute('aria-hidden', 'true');
+            });
+            document.getElementById('bev-modal-save').addEventListener('click', function () {
+                var checked = modalBeverages.querySelector('input[type="radio"]:checked');
+                if (!checked) {
+                    alert('Selecione um refrigerante.');
+                    return;
+                }
+                beveragesState[currentBeverageId] = beveragesState[currentBeverageId] || {};
+                beveragesState[currentBeverageId].type = checked.value;
+                updateBeverageChips(currentBeverageId);
+                beverageModal.classList.add('hidden');
+                beverageModal.setAttribute('aria-hidden', 'true');
+            });
+            var btnSend = document.getElementById('send-order');
+            btnSend.addEventListener('click', function () {
+                var cards = pizzasList.querySelectorAll('.pizza-card');
+                if (!cards.length) {
+                    alert('Adicione pelo menos uma pizza.');
+                    return;
+                }
+                var pizzasSummary = [];
+                var beveragesSummary = [];
+                var total = 0;
+                var pizzasData = [];
+                for (var p = 0; p < cards.length; p++) {
+                    var id = cards[p].getAttribute('data-pizza-id');
+                    var sizeEl = cards[p].querySelector('input[name="size-' + id + '"]:checked');
+                    if (!sizeEl) {
+                        alert('Selecione o tamanho da ' + (p + 1) + 'ª pizza.');
+                        return;
+                    }
+                    var size = sizeEl.value;
+                    var flavors = pizzasState[id] && pizzasState[id].flavors ? pizzasState[id].flavors : [];
+                    if (flavors.length === 0) {
+                        alert('Selecione os sabores da ' + (p + 1) + 'ª pizza.');
+                        return;
+                    }
+                    if (flavors.length > 2) {
+                        alert('Selecione no máximo 2 sabores por pizza.');
+                        return;
+                    }
+                    var note = pizzasState[id] && pizzasState[id].note ? pizzasState[id].note.trim() : '';
+                    var vals = [];
+                    for (var t = 0; t < flavors.length; t++) {
+                        var pr = flavorPricing[flavors[t]];
+                        vals.push(pr && pr[size] ? pr[size] : 0);
+                    }
+                    var price = vals.length ? Math.max.apply(null, vals) : 0;
+                    total += price;
+                    pizzasData.push({ size: size, flavors: flavors.slice(0), note: note, price: price });
+                    var line = 'Pizza ' + (p + 1) + ' — Tamanho: ' + size + ' — Sabores: ' + flavors.join(' + ') + ' — Preço: ' + (price > 0 ? formatBRL(price) : '—');
+                    if (note) line += ' — Obs: ' + note;
+                    pizzasSummary.push(line);
+                }
+                if (orderState.mode === 'delivery') {
+                    if (!orderState.payment) {
+                        alert('Selecione a forma de pagamento.');
+                        return;
+                    }
+                    if (orderState.payment === 'cash' && document.querySelector('input[name="need-change"]:checked').value === 'yes') {
+                        var amtStr = document.getElementById('change-amount').value.trim();
+                        if (!amtStr) {
+                            alert('Informe o valor para troco.');
+                            return;
+                        }
+                        orderState.changeNeeded = 'yes';
+                        orderState.changeAmount = amtStr;
+                    } else {
+                        orderState.changeNeeded = 'no';
+                        orderState.changeAmount = '';
+                    }
+                }
+                var bevCardsSend = document.querySelectorAll('.beverage-card');
+                var bevCounts = { 'Guaraná': 0, 'Coca-Cola': 0 };
+                var beveragesData = [];
+                for (var b = 0; b < bevCardsSend.length; b++) {
+                    var bid = bevCardsSend[b].getAttribute('data-beverage-id');
+                    var btype = beveragesState[bid] && beveragesState[bid].type ? beveragesState[bid].type : '';
+                    if (!btype) {
+                        alert('Selecione o tipo do refrigerante.');
+                        return;
+                    }
+                    total += beverageUnitPrice;
+                    beveragesData.push({ type: btype, price: beverageUnitPrice });
+                    if (bevCounts.hasOwnProperty(btype)) bevCounts[btype] += 1;
+                }
+                if (bevCounts['Coca-Cola'] > 0) {
+                    beveragesSummary.push('Coca-Cola x ' + bevCounts['Coca-Cola'] + ' — Preço: ' + formatBRL(bevCounts['Coca-Cola'] * beverageUnitPrice));
+                }
+                if (bevCounts['Guaraná'] > 0) {
+                    beveragesSummary.push('Guaraná x ' + bevCounts['Guaraná'] + ' — Preço: ' + formatBRL(bevCounts['Guaraná'] * beverageUnitPrice));
+                }
+                var address = document.getElementById('address').value.trim();
+                if (orderState.mode === 'delivery') {
+                    if (!address) {
+                        alert('Informe o endereço de entrega.');
+                        return;
+                    }
+                }
+                var phoneRaw = document.getElementById('phone').value;
+                var phoneDigits = phoneRaw.replace(/\D/g, '');
+                if (phoneDigits.length < 10) {
+                    alert('Informe um telefone válido.');
+                    return;
+                }
+                var deliveryFee = orderState.mode === 'delivery' ? 5 : 0;
+                var messageLines = [];
+                messageLines.push('Resumo do Pedido');
+                messageLines.push('--- PIZZAS ---');
+                for (var ps = 0; ps < pizzasSummary.length; ps++) {
+                    messageLines.push(pizzasSummary[ps]);
+                }
+                messageLines.push('');
+                messageLines.push('--- REFRIGERANTES ---');
+                if (beveragesSummary.length) {
+                    for (var bs = 0; bs < beveragesSummary.length; bs++) {
+                        messageLines.push('- ' + beveragesSummary[bs]);
+                    }
+                } else {
+                    messageLines.push('Nenhum');
+                }
+                messageLines.push('');
+                messageLines.push('--- ENTREGA/RETIRADA ---');
+                if (orderState.mode === 'delivery') {
+                    messageLines.push('Entrega');
+                    var pmLabel = orderState.payment === 'card' ? 'Cartão crédito/débito' : (orderState.payment === 'pix' ? 'Pix' : 'Dinheiro');
+                    messageLines.push('Pagamento: ' + pmLabel);
+                    if (orderState.payment === 'cash') {
+                        var needLabel = orderState.changeNeeded === 'yes' ? 'Sim' : 'Não';
+                        messageLines.push('Precisa de troco: ' + needLabel);
+                        if (orderState.changeNeeded === 'yes') {
+                            messageLines.push('Troco para: ' + orderState.changeAmount);
+                        }
+                    }
+                } else {
+                    messageLines.push('Retirada');
+                }
+                messageLines.push('');
+                messageLines.push('--- TOTAL ---');
+                if (orderState.mode === 'delivery') {
+                    total += deliveryFee;
+                    messageLines.push('Taxa de entrega: ' + formatBRL(deliveryFee));
+                }
+                messageLines.push(formatBRL(total));
+                messageLines.push('');
+                if (orderState.mode === 'delivery') {
+                    messageLines.push('Endereço: ' + address);
+                }
+                messageLines.push('Telefone: ' + phoneRaw);
+                var orderPayload = {
+                    pizzas: pizzasData,
+                    beverages: beveragesData,
+                    mode: orderState.mode,
+                    payment: orderState.payment,
+                    changeNeeded: orderState.changeNeeded,
+                    changeAmount: orderState.changeAmount,
+                    address: orderState.mode === 'delivery' ? address : '',
+                    phone: phoneRaw,
+                    deliveryFee: deliveryFee,
+                    total: total
+                };
+                try {
+                    fetch('/api/order', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(orderPayload)
+                    }).catch(function(){});
+                } catch(e) {}
+                var message = messageLines.map(function (line) { return encodeURIComponent(line); }).join('%0A');
+                var url = 'https://wa.me/5512996829155?text=' + message;
+                window.open(url, '_blank');
+            });
+        });
+    </script>
+
+<!--
+   _____      _    _      _
+  / ____|    | |  | |    (_)
+ | |  __     | |  | |    | |
+ | | |_ |    | |  | |    | |
+ | |__| |    | |__| |    | |
+  \_____|     \____/     |_|
+-->
+
+</body>
+</html>

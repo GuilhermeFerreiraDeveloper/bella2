@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste Responsivo - Bella Pizza</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 20px; border: 1px solid #ccc; }
+        .viewport-info { background: #f0f0f0; padding: 10px; margin: 10px 0; }
+        @media (max-width: 768px) { .viewport-info { background: #ffe6e6; } }
+        @media (max-width: 480px) { .viewport-info { background: #e6f3ff; } }
+    </style>
+</head>
+<body>
+    <h1>Teste de Responsividade - Bella Pizza</h1>
+    
+    <div class="viewport-info">
+        <strong>Informações da Viewport:</strong>
+        <div id="viewport-info"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Teste de Menu Hambúrguer</h2>
+        <button id="test-menu">Simular Menu Toggle</button>
+        <div id="menu-status">Menu: Fechado</div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Teste de Seleção de Sabores</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
+            <label style="display: flex; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                <input type="checkbox" style="margin-right: 10px;">
+                <span>Calabresa</span>
+            </label>
+            <label style="display: flex; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                <input type="checkbox" style="margin-right: 10px;">
+                <span>Mussarela</span>
+            </label>
+            <label style="display: flex; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                <input type="checkbox" style="margin-right: 10px;">
+                <span>Portuguesa</span>
+            </label>
+            <label style="display: flex; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                <input type="checkbox" style="margin-right: 10px;">
+                <span>Frango com Catupiry</span>
+            </label>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Breakpoints de Teste</h2>
+        <ul>
+            <li><strong>Desktop:</strong> > 1024px</li>
+            <li><strong>Tablet:</strong> 768px - 1024px</li>
+            <li><strong>Mobile:</strong> < 768px</li>
+            <li><strong>Small Mobile:</strong> < 480px</li>
+        </ul>
+    </div>
+
+    <script>
+        function updateViewportInfo() {
+            const info = document.getElementById('viewport-info');
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            const devicePixelRatio = window.devicePixelRatio || 1;
+            
+            let deviceType = 'Desktop';
+            if (width <= 480) deviceType = 'Small Mobile';
+            else if (width <= 768) deviceType = 'Mobile';
+            else if (width <= 1024) deviceType = 'Tablet';
+            
+            info.innerHTML = `
+                Largura: ${width}px<br>
+                Altura: ${height}px<br>
+                Tipo de Dispositivo: ${deviceType}<br>
+                DPR: ${devicePixelRatio}<br>
+                Orientação: ${width > height ? 'Paisagem' : 'Retrato'}
+            `;
+        }
+        
+        window.addEventListener('resize', updateViewportInfo);
+        window.addEventListener('orientationchange', updateViewportInfo);
+        updateViewportInfo();
+        
+        // Teste do menu
+        document.getElementById('test-menu').addEventListener('click', function() {
+            const status = document.getElementById('menu-status');
+            const currentStatus = status.textContent;
+            status.textContent = currentStatus.includes('Fechado') ? 'Menu: Aberto' : 'Menu: Fechado';
+        });
+        
+        // Teste de toque nos checkboxes
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('touchstart', function() {
+                this.style.transform = 'scale(0.95)';
+            });
+            checkbox.addEventListener('touchend', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

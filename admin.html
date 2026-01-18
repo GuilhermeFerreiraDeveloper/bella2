@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin - Bella Pizza</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+    <div class="header-content">
+        <img src="logo.png" alt="Bella Pizza Logo" class="logo">
+    </div>
+</header>
+<main>
+    <section id="login-section">
+        <h2>Login do Administrador</h2>
+        <form id="login-form">
+            <div class="form-group">
+                <label class="group-label" for="username">Usuário</label>
+                <input id="username" type="text" required>
+            </div>
+            <div class="form-group">
+                <label class="group-label" for="password">Senha</label>
+                <input id="password" type="password" required>
+            </div>
+            <button type="submit" class="btn-primary">Entrar</button>
+        </form>
+        <div id="login-error" style="color:#c0392b;margin-top:8px;display:none;">Credenciais inválidas</div>
+    </section>
+    <section id="dashboard-section" style="display:none;">
+        <div class="dashboard-header">
+            <h2>Pedidos do Mês</h2>
+            <div class="form-group">
+                <label class="group-label" for="month">Mês</label>
+                <input id="month" type="month">
+            </div>
+            <button id="logout" class="btn-danger">Sair</button>
+        </div>
+        <div id="stats" class="order-summary"></div>
+        <div id="orders-table"></div>
+    </section>
+</main>
+<footer>
+    <p>&copy; 2026 Bella Pizza. Área administrativa.</p>
+</footer>
+<script>
+async function me() {
+    const r = await fetch('/api/admin/me');
+    if (!r.ok) return null;
+    return r.json();
+}
+async function login(username, password) {
+    const r = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+    });
+    return r.ok;
+}
+async function logout() {
+    await fetch('/api/admin/logout', { method: 'POST' });
+}
+async function loadOrders(month) {
+    const r = await fetch('/api/orders?month=' + encodeURIComponent(month));
+    if (!r.ok) return { items: [] };
+    return r.json();
+}
+function fmtBRL(n) {
+    return 'R$ ' + Number(n || 0).toFixed(2).replace('.', ',');
+}
+function renderTable(items) {
+    let html = '<div class="order-summary">';
+    html += '<div class="order-line">Total de pedidos: ' + items.length + '</div>';
+    const sum = items.reduce((acc, o) => acc + Number(o.total || 0), 0);
+    html += '<div class="order-line">Faturamento do mês: ' + fmtBRL(sum) + '</div>';
+    html += '</div>';
+    html += '<table style="width:100%;border-collapse:collapse;">';
+    html += '<thead><tr><th style="text-align:left;padding:8px;border-bottom:1px solid #ddd;">Data</th><th style="text-align:left;padding:8px;border-bottom:1px solid #ddd;">Telefone</th><th style="text-align:left;padding:8px;border-bottom:1px solid #ddd;">Tipo</th><th style="text-align:left;padding:8px;border-bottom:1px solid #ddd;">Total</th></tr></thead>';
+    html += '<tbody>';
+    for (let i = 0; i < items.length; i++) {
+        const o = items[i];
+        const d = new Date(o.created_at);
+        const ds = d.toLocaleString('pt-BR');
+        const mode = o.mode === 'delivery' ? 'Entrega' : 'Retirada';
+        html += '<tr>';
+        html += '<td style="padding:8px;border-bottom:1px solid #eee;">' + ds + '</td>';
+        html += '<td style="padding:8px;border-bottom:1px solid #eee;">' + (o.phone || '') + '</td>';
+        html += '<td style="padding:8px;border-bottom:1px solid #eee;">' + mode + '</td>';
+        html += '<td style="padding:8px;border-bottom:1px solid #eee;">' + fmtBRL(o.total || 0) + '</td>';
+        html += '</tr>';
+    }
+    html += '</tbody></table>';
+    document.getElementById('stats').innerHTML = '';
+    document.getElementById('orders-table').innerHTML = html;
+}
+document.addEventListener('DOMContentLoaded', async function() {
+    const m = await me();
+    if (m && m.username) {
+        document.getElementById('login-section').style.display = 'none';
+        document.getElementById('dashboard-section').style.display = '';
+    }
+    const monthEl = document.getElementById('month');
+    const now = new Date();
+    const monthStr = now.toISOString().slice(0,7);
+    monthEl.value = monthStr;
+    async function refresh() {
+        const mm = monthEl.value || monthStr;
+        const data = await loadOrders(mm);
+        renderTable(data.items || []);
+    }
+    monthEl.addEventListener('change', refresh);
+    await refresh();
+    const form = document.getElementById('login-form');
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const u = document.getElementById('username').value.trim();
+        const p = document.getElementById('password').value;
+        const ok = await login(u, p);
+        if (!ok) {
+            const err = document.getElementById('login-error');
+            err.style.display = '';
+            return;
+        }
+        document.getElementById('login-error').style.display = 'none';
+        document.getElementById('login-section').style.display = 'none';
+        document.getElementById('dashboard-section').style.display = '';
+        await refresh();
+    });
+    document.getElementById('logout').addEventListener('click', async function() {
+        await logout();
+        document.getElementById('dashboard-section').style.display = 'none';
+        document.getElementById('login-section').style.display = '';
+    });
+});
+</script>
+</body>
+</html>
