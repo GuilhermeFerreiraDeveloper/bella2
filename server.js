@@ -171,7 +171,14 @@ function handleApi(req, res) {
             const orders = readJsonSafe(ORDERS_FILE, []);
             const createdAt = new Date().toISOString();
             const id = crypto.randomUUID ? crypto.randomUUID() : crypto.randomBytes(16).toString('hex');
-            const record = { id, created_at: createdAt, ...body };
+            const record = {
+                id,
+                created_at: createdAt,
+                status: 'pending',
+                settled_at: '',
+                prepared_at: '',
+                ...body
+            };
             orders.push(record);
             writeJsonSafe(ORDERS_FILE, orders);
             sendJson(res, 200, { ok: true, id });
@@ -179,14 +186,78 @@ function handleApi(req, res) {
         return;
     }
     if (req.method === 'GET' && url.pathname === '/api/orders') {
-        const s = requireAuth(req, res);
-        if (!s) return;
         const month = url.searchParams.get('month') || '';
         const orders = readJsonSafe(ORDERS_FILE, []);
-        const filtered = month
-            ? orders.filter(o => typeof o.created_at === 'string' && o.created_at.slice(0, 7) === month)
-            : orders.slice().reverse();
-        sendJson(res, 200, { items: filtered });
+        let items = orders.slice();
+        if (month) {
+            items = items.filter(o => typeof o.created_at === 'string' && o.created_at.slice(0, 7) === month);
+        }
+        items.sort((a, b) => {
+            const aa = typeof a.created_at === 'string' ? a.created_at : '';
+            const bb = typeof b.created_at === 'string' ? b.created_at : '';
+            return aa < bb ? 1 : aa > bb ? -1 : 0;
+        });
+        sendJson(res, 200, { items });
+        return;
+    }
+    if (req.method === 'POST' && url.pathname === '/api/order/status') {
+        readBody(req).then(body => {
+            const { id, status } = body || {};
+            if (!id || !status) {
+                sendJson(res, 400, { error: 'id ou status ausente' });
+                return;
+            }
+            const orders = readJsonSafe(ORDERS_FILE, []);
+            const now = new Date().toISOString();
+            for (let i = 0; i < orders.length; i++) {
+                if (orders[i].id === id) {
+                    orders[i].status = status;
+                    if (status === 'completed') {
+                        orders[i].settled_at = now;
+                    } else if (status === 'canceled') {
+                        orders[i].settled_at = '';
+                    } else if (status === 'prepared') {
+                        orders[i].prepared_at = now;
+                    }
+                    break;
+                }
+            }
+            writeJsonSafe(ORDERS_FILE, orders);
+            sendJson(res, 200, { ok: true });
+        });
+        return;
+    }
+    if (req.method === 'POST' && url.pathname === '/api/order/phone') {
+        readBody(req).then(body => {
+            const { id, phone } = body || {};
+            if (!id) {
+                sendJson(res, 400, { error: 'id ausente' });
+                return;
+            }
+            const orders = readJsonSafe(ORDERS_FILE, []);
+            for (let i = 0; i < orders.length; i++) {
+                if (orders[i].id === id) {
+                    orders[i].phone = phone || '';
+                    break;
+                }
+            }
+            writeJsonSafe(ORDERS_FILE, orders);
+            sendJson(res, 200, { ok: true });
+        });
+        return;
+    }
+    if (req.method === 'POST' && url.pathname === '/api/order/delete') {
+        readBody(req).then(body => {
+            const { id } = body || {};
+            if (!id) {
+                sendJson(res, 400, { error: 'id ausente' });
+                return;
+            }
+            const orders = readJsonSafe(ORDERS_FILE, []);
+            const next = orders.filter(o => o.id !== id);
+            writeJsonSafe(ORDERS_FILE, next);
+            sendJson(res, 200, { ok: true });
+        });
         return;
     }
     sendJson(res, 404, { error: 'endpoint não encontrado' });
