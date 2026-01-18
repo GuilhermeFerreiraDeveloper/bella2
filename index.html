@@ -357,6 +357,45 @@
                 var rr = rows[r];
                 flavorPricing[rr.flavor] = { P: Number(rr.price_p||0), G: Number(rr.price_g||0) };
             }
+        function updateMenuPrices(){
+            var priceBadges = document.querySelectorAll('#menu .menu-category ul li .flavor-price');
+            for (var i = 0; i < priceBadges.length; i++) {
+                priceBadges[i].parentNode.removeChild(priceBadges[i]);
+            }
+            var items = document.querySelectorAll('#menu .menu-category ul li');
+            for (var j = 0; j < items.length; j++) {
+                var strong = items[j].querySelector('strong');
+                if (!strong) continue;
+                var fname = strong.textContent.trim().replace(/:$/, '');
+                var pr = flavorPricing[fname];
+                if (!pr) continue;
+                var badge = document.createElement('span');
+                badge.className = 'flavor-price';
+                badge.style.marginLeft = '6px';
+                badge.style.color = '#ccc';
+                badge.textContent = '(P: ' + formatBRL(pr.P) + ' | G: ' + formatBRL(pr.G) + ')';
+                strong.appendChild(badge);
+            }
+        }
+        updateMenuPrices();
+        window.addEventListener('storage', async function(e){
+            if (e.key === 'bella2_db') {
+                await initDb();
+                var rs = await loadPricing();
+                flavorPricing = {};
+                for (var r2 = 0; r2 < rs.length; r2++) {
+                    var rr2 = rs[r2];
+                    flavorPricing[rr2.flavor] = { P: Number(rr2.price_p||0), G: Number(rr2.price_g||0) };
+                }
+                updateMenuPrices();
+                var cards = document.querySelectorAll('.pizza-card');
+                for (var c = 0; c < cards.length; c++) {
+                    var id = cards[c].getAttribute('data-pizza-id');
+                    if (id) updatePrice(id);
+                }
+                updateSummary();
+            }
+        });
             var pizzasState = {};
             var pizzaCounter = 0;
             var beveragesList = document.getElementById('beverages-list');
