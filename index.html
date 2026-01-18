@@ -323,7 +323,6 @@
             }
             showSection('menu');
 
-            renderDynamicFlavors(rows);
             function parsePrice(t) {
                 return parseFloat(String(t).replace(/\./g, '').replace(',', '.')) || 0;
             }
@@ -359,6 +358,8 @@
                 }
             }
             var flavorNames = activeNames.slice(0);
+            renderDynamicFlavors(rows);
+            updateMenuPrices();
         function updateMenuPrices(){
             var priceBadges = document.querySelectorAll('#menu .menu-category ul li .flavor-price');
             for (var i = 0; i < priceBadges.length; i++) {
@@ -392,6 +393,10 @@
                 dyn.id = 'dynamic-flavors';
                 dyn.className = 'menu-category';
                 container.appendChild(dyn);
+            }
+            if (!rows || !rows.length) {
+                dyn.innerHTML = '';
+                return;
             }
             var html = '<h3 class="menu-subtitle">Novos Sabores</h3><ul>';
             var hasAny = false;
@@ -789,8 +794,17 @@
             var modal = document.getElementById('flavor-modal');
             var modalFlavors = document.getElementById('modal-flavors');
             var currentPizzaId = null;
-            function renderModal(selected) {
+            async function renderModal(selected) {
                 modalFlavors.innerHTML = '';
+                if (!Array.isArray(flavorNames) || !flavorNames.length) {
+                    await initDb();
+                    var rs = await loadPricing();
+                    var active = [];
+                    for (var i2 = 0; i2 < rs.length; i2++) {
+                        if (Number(rs[i2].active)) active.push(rs[i2].flavor);
+                    }
+                    flavorNames = active;
+                }
                 for (var j = 0; j < flavorNames.length; j++) {
                     var label = document.createElement('label');
                     label.className = 'checkbox';
@@ -816,10 +830,10 @@
                     inputs[m].addEventListener('change', enforceLimit);
                 }
             }
-            function openFlavorModal(id) {
+            async function openFlavorModal(id) {
                 currentPizzaId = id;
                 var selected = pizzasState[id] && pizzasState[id].flavors ? pizzasState[id].flavors : [];
-                renderModal(selected);
+                await renderModal(selected);
                 modal.classList.remove('hidden');
                 modal.setAttribute('aria-hidden', 'false');
             }
