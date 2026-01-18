@@ -251,7 +251,9 @@
         let SQLModule=null;let db=null;
         function toB64(u){let s='';for(let i=0;i<u.length;i++)s+=String.fromCharCode(u[i]);return btoa(s);}
         function fromB64(s){const b=atob(s);const u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u;}
-        async function initDb(){if(SQLModule&&db)return;SQLModule=await initSqlJs({locateFile:function(f){return 'https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/'+f;}});const saved=localStorage.getItem('bella2_db');db=saved?new SQLModule.Database(fromB64(saved)):new SQLModule.Database();db.exec("CREATE TABLE IF NOT EXISTS admin(username TEXT PRIMARY KEY,salt TEXT,hash TEXT)");db.exec("CREATE TABLE IF NOT EXISTS orders(id TEXT PRIMARY KEY,created_at TEXT,phone TEXT,mode TEXT,total REAL,payload TEXT)");}
+        async function initDb(){if(SQLModule&&db)return;SQLModule=await initSqlJs({locateFile:function(f){return 'https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/'+f;}});const saved=localStorage.getItem('bella2_db');db=saved?new SQLModule.Database(fromB64(saved)):new SQLModule.Database();db.exec("CREATE TABLE IF NOT EXISTS admin(username TEXT PRIMARY KEY,salt TEXT,hash TEXT)");db.exec("CREATE TABLE IF NOT EXISTS orders(id TEXT PRIMARY KEY,created_at TEXT,phone TEXT,mode TEXT,total REAL,payload TEXT)");db.exec("CREATE TABLE IF NOT EXISTS pricing(flavor TEXT PRIMARY KEY,price_p REAL,price_g REAL)");}
+        async function loadPricing(){await initDb();const stmt=db.prepare("SELECT flavor,price_p,price_g FROM pricing");const rows=[];while(stmt.step()){rows.push(stmt.getAsObject());}stmt.free();return rows;}
+        async function seedPricingIfEmpty(map){await initDb();const rs=db.exec("SELECT COUNT(1) AS c FROM pricing");let c=0;if(rs.length&&rs[0].values&&rs[0].values[0]){c=Number(rs[0].values[0][0]||0);}if(c===0){const stmt=db.prepare("INSERT INTO pricing(flavor,price_p,price_g) VALUES(?,?,?)");var keys=Object.keys(map);for(var i=0;i<keys.length;i++){var k=keys[i];stmt.run([k, Number(map[k].P||0), Number(map[k].G||0)]);}stmt.free();localStorage.setItem('bella2_db', toB64(db.export()));}}
         document.addEventListener('DOMContentLoaded', async function () {
             await initDb();
             // Menu hambúrguer functionality
@@ -347,6 +349,13 @@
                     var name = fs[f].textContent.trim().replace(/:$/, '');
                     flavorPricing[name] = { P: pVal, G: gVal };
                 }
+            }
+            await seedPricingIfEmpty(flavorPricing);
+            var rows = await loadPricing();
+            flavorPricing = {};
+            for (var r = 0; r < rows.length; r++) {
+                var rr = rows[r];
+                flavorPricing[rr.flavor] = { P: Number(rr.price_p||0), G: Number(rr.price_g||0) };
             }
             var pizzasState = {};
             var pizzaCounter = 0;
