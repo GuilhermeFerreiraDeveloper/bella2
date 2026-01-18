@@ -1053,8 +1053,9 @@
                     deliveryFee: deliveryFee,
                     total: total
                 };
+                var savedOk = false;
                 try {
-                    await fetch('/api/order', {
+                    var resp = await fetch('/api/order', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
@@ -1064,7 +1065,14 @@
                             payload: JSON.stringify(orderPayload)
                         })
                     });
-                } catch (e) {}
+                    savedOk = resp && resp.ok;
+                } catch (e) {
+                    savedOk = false;
+                }
+                if (!savedOk) {
+                    alert('Não foi possível registrar o pedido na área administrativa. Verifique sua conexão com o sistema antes de enviar pelo WhatsApp.');
+                    return;
+                }
                 var message = messageLines.map(function (line) { return encodeURIComponent(line); }).join('%0A');
                 var url = 'https://wa.me/5512996829155?text=' + message;
                 window.open(url, '_blank');
